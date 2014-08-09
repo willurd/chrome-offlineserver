@@ -1,4 +1,4 @@
 chrome-httpserver
 =================
 
-An HTTP server in a chrome app
+An HTTP server in a Chrome app, made on a Chromebook.

@@ -24,6 +24,9 @@ window.onload = function() {
     };
   }
 
+  // 404 Not Found
+  // 500 Server Error
+
   function onReceive(info) {
     console.log('Received info:', info);
 
@@ -32,9 +35,17 @@ window.onload = function() {
     // }
 
     var requestData = ab2str(info.data);
-    var responseData = 'hello chrome';
 
-    console.log('Data:', requestData);
+    var responseBody = '{"name": "William Bowers"}';
+    var responseData =
+      'HTTP/1.1 200 Ok\n' +
+      'Date: ' + new Date() + '\n' +
+      'Content-Type: text/html\n' +
+      'Content-Length: ' + responseBody.length + '\n\n' +
+      responseBody;
+
+    console.log('Received data:', requestData);
+    console.log('Sending data:', responseData);
 
     tcp.send(info.socketId, str2ab(responseData), catchAll(function(resultCode) {
       console.log("Data sent to new tcp client connection. Closing.");
@@ -62,7 +73,7 @@ window.onload = function() {
 
   function onListen(socketId, resultCode) {
     if (resultCode < 0) {
-      return console.error("Error listening:", chrome.runtime.lastError.message);
+      return console.log("Error listening:", chrome.runtime.lastError.message);
     }
 
     serverSocketId = socketId;
