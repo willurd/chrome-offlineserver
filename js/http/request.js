@@ -1,27 +1,49 @@
 define(function(require) {
 
-  // http://nodejs.org/api/http.html#http_class_http_clientrequest
+  var _ = require('underscore');
 
-  function HttpRequest() {
-
+  function processData(data) {
+    var split = data.split('\n\n');
+    processHeadData.call(this, split[0]);
+    this.body = split.slice(1).join('\n\n');
   }
 
-  HttpRequest.prototype = {
-    // @param {string=} encoding
-    write: function(chunk, encoding) {
-      // TODO: Write me.
-    },
+  function processHeadData(data) {
+    var split = data.split('\n').filter(function(line) {
+      return !!line.trim();
+    });
+    processRequestLine.call(this, split[0]);
+    processHeaders.call(this, split.slice(1));
+  }
 
-    // @param {string=} data
-    // @param {string=} encoding
-    end: function(data, encoding) {
-      // TODO: Write me.
-    },
+  function processRequestLine(line) {
+    var split = line.split(' ');
+    this.method = split[0];
+    this.path = split[1].slice(1);
+    this.version = split[2];
+  }
 
-    abort: function() {
-      // TODO: Write me.
-    }
-  };
+  function processHeaders(lines) {
+    this.headers = {};
+
+    lines.forEach(function(line) {
+      var split = line.split(': ');
+      this.headers[split[0]] = split[1];
+    }.bind(this));
+  }
+
+  // http://nodejs.org/api/http.html#http_class_http_clientrequest
+
+  function HttpRequest(data) {
+    processData.call(this, data);
+
+    // console.log('--- request');
+    // console.log('method:', this.method);
+    // console.log('path:', this.path);
+    // console.log('version:', this.version);
+    // console.log('headers:', this.headers);
+    // console.log('body:', this.body);
+  }
 
   return HttpRequest;
 

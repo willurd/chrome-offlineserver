@@ -37,16 +37,12 @@ define(function(require) {
 
   function catchAll(fn) {
     return function() {
-      var result;
-
       try {
-        result = fn.apply(null, arguments);
+        return fn.apply(null, arguments);
       } catch (e) {
         console.error(e);
         throw e;
       }
-
-      return result;
     };
   }
 
@@ -84,7 +80,7 @@ define(function(require) {
         this.setHeader('Content-Type', contentType);
       }
 
-      body = String(body);
+      body = String(body || '');
       this.setHeader('Content-Length', body.length);
 
       return send.call(this,
