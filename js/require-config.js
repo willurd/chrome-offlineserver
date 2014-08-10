@@ -1,3 +1,7 @@
 requirejs.config({
-  deps: ['main']
+  deps: ['main'],
+
+  paths: {
+    underscore: '/lib/underscore'
+  }
 });
