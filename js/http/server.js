@@ -36,7 +36,7 @@ define(function(require) {
     // console.log('Received info:', info);
 
     var req = new HttpRequest(arraybuffer.ab2str(info.data));
-    var res = new HttpResponse(info.socketId);
+    var res = new HttpResponse(info.socketId, req);
     var matched = getRoute.call(this, req);
 
     if (!matched) {

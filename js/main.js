@@ -2,6 +2,10 @@ define(function(require) {
 
   var HttpServer = require('http/server');
 
+  // TODO: This file should ultimately be reading server configurations from
+  // local storage and creating/configuring servers with that information,
+  // rather than creating them manually here.
+
   var srv = new HttpServer('127.0.0.1', 8080);
 
   srv.get('', function(req, res) {

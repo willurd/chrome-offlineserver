@@ -14,8 +14,12 @@ define(function(require) {
 
   function send(content) {
     tcp.send(this.socketId, arraybuffer.str2ab(content), catchAll(function(resultCode) {
-      console.log("Data sent to new tcp client connection. Closing.");
       tcpServer.close(this.socketId);
+      console.log(
+        this.req.method + ' - ' +
+        this.statusCode + ' - ' +
+        new Date() + ' - ' +
+        '/' + this.req.path);
     }.bind(this)));
 
     this.sent = true;
@@ -48,11 +52,12 @@ define(function(require) {
 
   // http://nodejs.org/api/http.html#http_class_http_serverresponse
 
-  function HttpResponse(socketId) {
+  function HttpResponse(socketId, req) {
     this.socketId = socketId;
     this.sent = false;
     this.statusCode = 200;
     this.headers = {};
+    this.req = req;
   }
 
   HttpResponse.prototype = {
