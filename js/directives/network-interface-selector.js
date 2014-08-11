@@ -11,19 +11,17 @@ angular.module('app')
       restrict: 'E',
       replace: true,
       templateUrl: templateUrl,
-      link: function(scope, elem, attrs) {
-        scope.interfaces = [];
-        // scope.interfaces = [
-        //   localHostInterface
-        // ];
+      scope: null,
+      controller: function($scope) {
+        $scope.interfaces = [
+          localHostInterface
+        ];
 
+        // TODO: Abstract this out to a service.
         chrome.system.network.getNetworkInterfaces(function(interfaces) {
-          scope.interfaces = scope.interfaces.concat(interfaces);
-
-          var el = $compile($templateCache.get(templateUrl)[1])(scope);
-          elem.html('');
-          elem.append(el[0]);
-          console.log(scope, el[0].innerHTML);
+          $scope.$apply(function() {
+            $scope.interfaces = $scope.interfaces.concat(interfaces);
+          });
         });
       }
     };
