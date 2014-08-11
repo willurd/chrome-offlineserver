@@ -6,43 +6,85 @@ define(function(require) {
   // local storage and creating/configuring servers with that information,
   // rather than creating them manually here.
 
-  var srv = new HttpServer('127.0.0.1', 8080);
-
-  srv.get('', function(req, res) {
-    res.json({
-      "links": {
-        "posts.author": {
-          "href": "http://example.com/people/{posts.author}",
-          "type": "people"
+  var serverConfigs = [
+    {
+      name: '',
+      host: '127.0.0.1',
+      port: 8080,
+      routes: [
+        {
+          method: 'GET',
+          route: '',
+          dataType: 'json',
+          data: {
+            "links": {
+              "posts.author": {
+                "href": "http://example.com/people/{posts.author}",
+                "type": "people"
+              },
+              "posts.comments": {
+                "href": "http://example.com/comments/{posts.comments}",
+                "type": "comments"
+              }
+            },
+            "posts": [{
+              "id": "1",
+              "title": "Rails is Omakase",
+              "links": {
+                "author": "9",
+                "comments": [ "5", "12", "17", "20" ]
+              }
+            }]
+          }
         },
-        "posts.comments": {
-          "href": "http://example.com/comments/{posts.comments}",
-          "type": "comments"
+        {
+          method: 'GET',
+          route: 'test1/:param1',
+          dataType: 'json',
+          data: {
+            'key1': 'value1'
+          }
+        },
+        {
+          method: 'GET',
+          route: 'test2/:param1/:param2',
+          dataType: 'json',
+          data: {
+            'key2': 'value2'
+          }
+        },
+        {
+          method: 'GET',
+          route: 'test3/:param1/:param2/:param3',
+          dataType: 'json',
+          data: {
+            'key3': 'value3'
+          }
         }
-      },
-      "posts": [{
-        "id": "1",
-        "title": "Rails is Omakase",
-        "links": {
-          "author": "9",
-          "comments": [ "5", "12", "17", "20" ]
-        }
-      }]
+      ]
+    }
+  ];
+
+  var servers = {};
+
+  serverConfigs.forEach(function(config) {
+    var host = config.host || '127.0.0.1';
+    var port = config.port || 8080;
+    var key = host + ':' + port;
+    var srv = new HttpServer(host, port);
+
+    config.routes.forEach(function(route) {
+      var method = route.method.toLowerCase();
+      srv[method](route.route, function(req, res) {
+        res[route.dataType](route.data);
+      });
     });
+
+    servers[key] = srv;
   });
 
-  var extra = '';
-
-  _.times(5, function(i) {
-    srv.get('test' + i + extra, function(req, res) {
-      var obj = {};
-      obj['key' + i] = 'value' + i;
-      res.json(obj);
-    });
-
-    extra += '/:param' + i;
-  });
-
-  srv.start();
+  for (var key in servers) {
+    servers[key].start();
+  }
 
 });

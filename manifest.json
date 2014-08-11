@@ -3,8 +3,8 @@
   "name": "HttpServer",
   "short_name": "HttpServer",
   "description": "Description for HttpServer",
-
   "version": "0.0.1.0",
+  "content_security_policy": "unsafe-inline",
 
   "icons": {
     "16": "assets/icon_16.png",
@@ -17,9 +17,13 @@
     }
   },
 
+  "permissions": [
+    "system.network"
+  ],
+
   "sockets": {
     "tcpServer": {
-      "listen": [":8080"]
+      "listen": ["*:*"]
     }
   }
 }

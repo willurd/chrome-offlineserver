@@ -32,3 +32,14 @@ One idea is to have a datastore per app that you can add data to. Then you can
 return items from endpoints dynamically that correspond to items in other
 endpoints and don't have to hard-code that data. This will help to emulate
 an actual server environment.
+
+## Cool tech
+
+* Chrome OS
+* Chrome Dev Editor
+* IndexedDB
+* AngularJS
+
+## Inspiration/Alternatives
+
+* http://deployd.com/
