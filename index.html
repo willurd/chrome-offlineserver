@@ -6,11 +6,14 @@
     <script src="/lib/angular.js"></script>
     <script src="/js/modules/app.js"></script>
     <script src="/js/controllers/app.js"></script>
+    <script src="/js/directives/server-item.js"></script>
     <script src="/js/directives/network-interface-selector.js"></script>
   </head>
   <body ng-controller="AppController as app">
-    <network-interface-selector value="networkInterface"></network-interface-selector>
-
-    <!--<script data-main="js/require-config" src="lib/require.js"></script>-->
+    <server-item
+      ng-repeat="server in servers"
+      address="server.address"
+      port="server.port">
+    </server-item>
   </body>
 </html>
