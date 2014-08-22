@@ -7,13 +7,12 @@
     <script src="/js/modules/app.js"></script>
     <script src="/js/controllers/app.js"></script>
     <script src="/js/directives/server-item.js"></script>
+    <script src="/js/directives/server-status.js"></script>
+    <script src="/js/directives/server-status-led.js"></script>
+    <script src="/js/directives/server-status-label.js"></script>
     <script src="/js/directives/network-interface-selector.js"></script>
   </head>
   <body ng-controller="AppController as app">
-    <server-item
-      ng-repeat="server in servers"
-      address="server.address"
-      port="server.port">
-    </server-item>
+    <server-item ng-repeat="server in servers" server="server"></server-item>
   </body>
 </html>

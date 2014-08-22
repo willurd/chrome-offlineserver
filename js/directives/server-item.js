@@ -5,11 +5,7 @@ app.directive('serverItem', function() {
     restrict: 'E',
     templateUrl: '/js/directives/server-item.html',
     scope: {
-      address: '=',
-      port: '='
-    },
-    controller: function($scope) {
-
+      server: "="
     }
-  }
+  };
 });

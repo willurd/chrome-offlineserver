@@ -36,6 +36,8 @@ app.directive('networkInterfaceSelector', function() {
 
           if (typeof $scope.value === 'string') {
             $scope.value = getInterfaceWithAddress($scope.value) || localHostInterface;
+          } else if ($scope.value && typeof $scope.value === 'object') {
+            $scope.value = getInterfaceWithAddress($scope.value.address);
           }
         });
       });
