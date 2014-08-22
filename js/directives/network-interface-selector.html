@@ -1,5 +1,4 @@
-<select>
-  <option ng-repeat="interface in interfaces" value="{{interface.address}}">
-    {{interface.name}} ({{interface.address}})
-  </option>
+<select
+  ng-model="value"
+  ng-options="i.address group by i.name for i in interfaces">
 </select>

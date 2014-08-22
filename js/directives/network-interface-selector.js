@@ -5,14 +5,15 @@ angular.module('app')
       name: 'localhost'
     };
 
-    var templateUrl = '/js/directives/network-interface-selector.html';
-
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: templateUrl,
-      scope: null,
+      templateUrl: '/js/directives/network-interface-selector.html',
+      scope: {
+        value: "="
+      },
       controller: function($scope) {
+        $scope.value = localHostInterface;
         $scope.interfaces = [
           localHostInterface
         ];
